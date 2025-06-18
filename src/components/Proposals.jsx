@@ -1,32 +1,36 @@
-import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+import { useEffect, useState } from 'react'
+import { ethers } from 'ethers'
 
 export default function ProposalList() {
-  const [proposals, setProposals] = useState([]);
-  const contractAddress = "YOUR_CONTRACT_ADDRESS_HERE"; // replace with your deployed contract
+  const [proposals, setProposals] = useState([
+    { title: 'Add dark mode', votes: 5 },
+    { title: 'Launch DAO token', votes: 2 },
+    { title: 'Reward top contributors', votes: 8 },
+  ])
+  const contractAddress = ""
 
   const abi = [
     "function getAllProposals() public view returns (string[] memory)"
-  ];
+  ]
 
-  useEffect(() => {
-    const fetchProposals = async () => {
-      if (!window.ethereum) return alert("MetaMask not found");
+//   useEffect(() => {
+//     const fetchProposals = async () => {
+//       if (!window.ethereum) return alert("MetaMask not found")
 
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, abi, signer);
+//       const provider = new ethers.BrowserProvider(window.ethereum)
+//       const signer = await provider.getSigner()
+//       const contract = new ethers.Contract(contractAddress, abi, signer)
 
-      try {
-        const result = await contract.getAllProposals();
-        setProposals(result);
-      } catch (error) {
-        console.error("Error fetching proposals:", error);
-      }
-    };
+//       try {
+//         const result = await contract.getAllProposals()
+//         setProposals(result);
+//       } catch (error) {
+//         console.error("Error fetching proposals:", error)
+//       }
+//     }
 
-    fetchProposals();
-  }, []);
+//     fetchProposals();
+//   }, [])
 
   return (
     <div>
