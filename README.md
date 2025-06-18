@@ -55,8 +55,6 @@ This project is part of my journey to become proficient in Web3 development by:
 
 ## Get started
 
-1. **Clone the repository:**
-
    ```bash
    git clone https://github.com/your-username/votechain.git
    cd votechain
