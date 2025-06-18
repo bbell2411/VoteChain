@@ -60,7 +60,7 @@ This project is part of my journey to become proficient in Web3 development by:
    cd votechain
    npm install
    npm start
-   
+```
 ---
 
 ## 📝 License
