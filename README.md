@@ -53,10 +53,16 @@ This project is part of my journey to become proficient in Web3 development by:
 
 ---
 
-## 📬 Feedback and Collaboration
+## Get started
 
-I welcome feedback and contributions to help improve VoteChain. Feel free to open issues or submit pull requests!
+1. **Clone the repository:**
 
+   ```bash
+   git clone https://github.com/your-username/votechain.git
+   cd votechain
+   npm install
+   npm start
+   
 ---
 
 ## 📝 License
