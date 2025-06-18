@@ -1,6 +1,67 @@
-# Getting Started with Create React App
+# 🗳️ VoteChain — Decentralized Voting dApp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**VoteChain** is a Web3 application built with **React** and **Ethers.js** that enables users to connect their Ethereum wallet, view voting proposals, and cast votes securely on the blockchain.  
+
+This project demonstrates practical skills in frontend React development combined with blockchain interaction fundamentals, serving as a foundation for a fully decentralized governance system.
+
+---
+
+## 🚀 Features
+
+- 🔐 Connect your Ethereum wallet via MetaMask  
+- 📋 Display a list of voting proposals  
+- ✅ Allow users to vote once per proposal  
+- 🎨 Clean and responsive UI with dark mode styling  
+- ⚙️ Uses Ethers.js for wallet connection and blockchain interaction  
+
+---
+
+## 💡 Current Status
+
+- Proposals and votes are currently managed locally in React state for rapid development and UI testing  
+- Solidity smart contract developed for managing proposals and votes on-chain (contract code included in `/contracts` folder)  
+- Integration with deployed smart contract on testnet is underway  
+- Transactional interactions (adding proposals, voting) planned to be fully on-chain with ETH gas costs  
+
+---
+
+## 📦 Technology Stack
+
+- React (Vite) for frontend UI  
+- Ethers.js (v6) for Ethereum blockchain interaction  
+- Solidity (v0.8.28) for smart contract development  
+- CSS3 with custom dark mode design  
+
+---
+
+## 🛠️ Roadmap
+
+- [ ] Deploy smart contract to Sepolia testnet  
+- [ ] Fetch proposals and votes from the blockchain  
+- [ ] Implement on-chain voting and proposal creation with ETH payments  
+- [ ] Add transaction status feedback and error handling  
+- [ ] Enhance UI/UX and add accessibility features  
+
+---
+
+## 📚 Learning Goals
+
+This project is part of my journey to become proficient in Web3 development by:  
+- Building a full-stack dApp integrating frontend React with Ethereum smart contracts  
+- Gaining hands-on experience with wallet connectivity, blockchain reads/writes, and gas management  
+- Understanding decentralized governance mechanisms and how to implement them  
+
+---
+
+## 📬 Feedback and Collaboration
+
+I welcome feedback and contributions to help improve VoteChain. Feel free to open issues or submit pull requests!
+
+---
+
+## 📝 License
+
+MIT License — Feel free to use and learn from this project!
 
 ## Available Scripts
 
@@ -11,60 +72,4 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
