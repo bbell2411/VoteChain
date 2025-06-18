@@ -25,7 +25,7 @@ export const Dashboard = () => {
     return (
       <div className="dashboard">
         <h1>Welcome to VoteChain</h1>
-        <p>Connected Wallet: {walletAddress}</p>
+        <p className='connected'>Connected Wallet: {walletAddress}</p>
   
         {proposals.map((p, i) => (
           <div key={i} className="proposal">
