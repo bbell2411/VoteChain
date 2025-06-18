@@ -12,7 +12,8 @@ export default function WalletConnect() {
 
   return (
     <div>
-      <button onClick={connectWallet}>
+      <h2 className="wallet-header">Connect to get started</h2>
+      <button className="add-wallet" onClick={connectWallet}>
         {walletAddress ? `Connected: ${walletAddress}` : "Connect Wallet"}
       </button>
     </div>
