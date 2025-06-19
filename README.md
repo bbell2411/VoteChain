@@ -36,10 +36,6 @@ This project demonstrates practical skills in frontend React development combine
 
 ## 🛠️ Roadmap
 
-- [ ] Deploy smart contract to Sepolia testnet  
-- [ ] Fetch proposals and votes from the blockchain  
-- [ ] Implement on-chain voting and proposal creation with ETH payments  
-- [ ] Add transaction status feedback and error handling  
 - [ ] Enhance UI/UX and add accessibility features  
 
 ---
