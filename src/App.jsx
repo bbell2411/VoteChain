@@ -7,6 +7,7 @@ function App() {
   return (
 
     <div className='App'>
+      <title>VoteChain</title>
       <BrowserRouter>
         <h1 className='header'>VoteChain</h1>
         <Routes>
