@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
 import { useNavigate } from 'react-router-dom';
 
 export default function WalletConnect() {
@@ -12,9 +11,9 @@ export default function WalletConnect() {
     setIsLoading(true)
 
     try {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      setWalletAddress(accounts[0]);
-      navigate('/dashboard', { state: { walletAddress: accounts[0] } });
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+      setWalletAddress(accounts[0])
+      navigate('/dashboard', { state: { walletAddress: accounts[0] } })
     } catch (error) {
       console.error(error)
       alert('Failed to connect wallet')
@@ -31,5 +30,5 @@ export default function WalletConnect() {
       </button>
       {isLoading && <div className="loader"></div>}
     </div>
-  );
+  )
 }

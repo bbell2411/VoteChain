@@ -1,42 +1,35 @@
 import { useLocation } from 'react-router-dom';
 import { use, useEffect, useState } from 'react';
+import { contractABI, contractAddress } from '../../contracts/config.js'; 
 
 export const Dashboard = () => {
     const location = useLocation()
     const walletAddress = location.state?.walletAddress
 
-    const [votedProposals, setVotedProposals] = useState(() => {
-        const saved = localStorage.getItem('votedProposals')
-        return saved ? JSON.parse(saved) : []
-    })
+  
+    const [proposals, setProposals] = useState([]);
+    const [votedProposals, setVotedProposals] = useState([])
 
-    const [proposals, setProposals] = useState(() => {
-        const savedProposals = localStorage.getItem('proposals')
-        return savedProposals
-            ? JSON.parse(savedProposals)
-            : [
-                { title: 'Add dark mode', votes: 5 },
-                { title: 'Launch DAO token', votes: 2 },
-                { title: 'Reward contributors', votes: 8 },
-            ]
-    })
+    const [contract, setContract] = useState(null)
 
     useEffect(() => {
-        localStorage.setItem('proposals', JSON.stringify(proposals))
-    }, [proposals])
+        if (window.ethereum && walletAddress) {
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const signer = provider.getSigner();
+    
+          const voteContract = new ethers.Contract(contractAddress, contractABI, signer);
+          setContract(voteContract);
+        }
+      }, [walletAddress])
 
-    useEffect(() => {
-        localStorage.setItem('votedProposals', JSON.stringify(votedProposals))
-    }, [votedProposals])
+    // const voteForProposal = (index) => {
+    //     if (votedProposals.includes(index)) return
 
-    const voteForProposal = (index) => {
-        if (votedProposals.includes(index)) return
-
-        const updated = [...proposals]
-        updated[index].votes += 1
-        setProposals(updated)
-        setVotedProposals([...votedProposals, index])
-    };
+    //     const updated = [...proposals]
+    //     updated[index].votes += 1
+    //     setProposals(updated)
+    //     setVotedProposals([...votedProposals, index])
+    // };
 
     return (
         <div className="dashboard">
