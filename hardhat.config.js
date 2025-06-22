@@ -12,4 +12,8 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY],
     },
   },
-};
+}
+
+//get contract address after deployment
+//find testing faucet for eth!!! 
+//provider>signer>contract>etc
