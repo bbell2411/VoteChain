@@ -14,6 +14,4 @@ module.exports = {
   },
 }
 
-//get contract address after deployment
-//find testing faucet for eth!!! 
-//provider>signer>contract>etc
+

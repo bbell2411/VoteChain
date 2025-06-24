@@ -22,7 +22,5 @@ function App() {
 
 export default App
 
-//deploy contract
-//request proposals with contract 
 // add poropsals/ delete proposals (will cost ETH)
 // vote for proposals (will cost ETH)
