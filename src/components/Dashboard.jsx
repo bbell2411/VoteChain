@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../contracts/config';
 import { ethers } from 'ethers'
 import Loading from './Loading'
@@ -18,16 +18,34 @@ export const Dashboard = () => {
     const [newProposal, setNewProposal] = useState('')
 
     useEffect(() => {
-        if (window.ethereum && walletAddress) {
-            const provider = new ethers.BrowserProvider(window.ethereum)
-            const signer = provider.getSigner()
+        const setupContractAndFetch = async () => {
+            if (window.ethereum && walletAddress) {
+                try {
+                    const provider = new ethers.BrowserProvider(window.ethereum)
+                    const signer = await provider.getSigner()
+                    const voteContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
+                    setContract(voteContract)
 
-            const voteContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
-            setContract(voteContract)
+                    const proposalTitles = await voteContract.getAllProposals()
+                    const proposalsWithVotes = await Promise.all(
+                        proposalTitles.map(async (title) => {
+                            const votes = await voteContract.getVotes(title)
+                            return { title, votes: Number(votes) }
+                        })
+                    )
+                    setProposals(proposalsWithVotes)
+                } catch (err) {
+                    console.error("Contract setup or fetch failed:", err)
+                    setError(true)
+                }
+            }
         }
+
+        setupContractAndFetch()
     }, [walletAddress])
 
     const fetchProposals = async () => {
+        if (!contract) return
         try {
             setIsLoading(true)
             const proposalTitles = await contract.getAllProposals()
@@ -35,20 +53,19 @@ export const Dashboard = () => {
             const proposalsWithVotes = await Promise.all(
                 proposalTitles.map(async (title) => {
                     const votes = await contract.getVotes(title)
-                    return { title, votes: votes.toNumber() }
+                    return { title, votes: Number(votes) }
                 })
             )
 
             setProposals(proposalsWithVotes)
-            setIsLoading(false)
         } catch (err) {
+            console.log("here", contract)
             setError(true)
         }
         finally {
             setIsLoading(false)
         }
     }
-
     const voteForProposal = async (proposalTitle) => {
         if (votedProposals.includes(proposalTitle)) return;
 
@@ -59,37 +76,36 @@ export const Dashboard = () => {
 
             await fetchProposals()
             setVotedProposals([...votedProposals, proposalTitle])
-            setIsLoading(false)
         } catch (err) {
-            setError('Failed to vote')
+            setError(true)
             setIsLoading(false)
         } finally {
             setIsLoading(false)
         }
     }
-
     const handleAddProposal = async (e) => {
-        e.preventDefault()
-        if (!newProposal.trim()) return
-
-        const provider = new ethers.BrowserProvider(window.ethereum)
-        const signer = await provider.getSigner()
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
+        e.preventDefault();
+        if (!newProposal.trim()) return;
 
         try {
+            setIsLoading(true)
             const tx = await contract.addProposal(newProposal)
             await tx.wait()
-            alert('Proposal added!')
             await fetchProposals()
-            setIsLoading(false)
+            alert("Proposal added!")
+            setNewProposal('')
         } catch (err) {
+            console.error(err)
             setError(true)
+        } finally {
+            setIsLoading(false)
         }
     }
-    if (isLoading) <Loading />
 
-    if (error) <p style={{ color: 'red' }}>Error loading proposals. Please try again later.</p>
-    
+    if (isLoading) return <Loading />
+
+    if (error) return <p style={{ color: 'red' }}>Error loading proposals. Please try again later.</p>
+
     return (
         <div className="dashboard">
             <h1>Start voting</h1>
@@ -133,6 +149,5 @@ export const Dashboard = () => {
 //Add wallet disconnection logic
 // Add transaction history
 // Show proposal expiration timers (optional: update your contract)
-//load && err!!!
 
 
