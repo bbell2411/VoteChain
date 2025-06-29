@@ -55,7 +55,7 @@ This project is part of my journey to become proficient in Web3 development by:
    git clone https://github.com/bbell2411/votechain.git
    cd votechain
    npm install
-   npm start
+   npm run start
 ```
 ---
 
