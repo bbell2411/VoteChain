@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { use, useEffect, useState } from 'react';
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../contracts/config';
 import { ethers } from 'ethers'
+import Loading from './Loading'
 export const Dashboard = () => {
     const location = useLocation()
     const walletAddress = location.state?.walletAddress
@@ -85,6 +86,10 @@ export const Dashboard = () => {
             setError(true)
         }
     }
+    if (isLoading) <Loading />
+
+    if (error) <p style={{ color: 'red' }}>Error loading proposals. Please try again later.</p>
+    
     return (
         <div className="dashboard">
             <h1>Start voting</h1>
