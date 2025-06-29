@@ -149,5 +149,5 @@ export const Dashboard = () => {
 //Add wallet disconnection logic
 // Add transaction history
 // Show proposal expiration timers (optional: update your contract)
-
+//vote persistance
 
