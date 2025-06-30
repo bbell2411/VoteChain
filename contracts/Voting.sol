@@ -2,28 +2,48 @@
 pragma solidity ^0.8.28;
 
 contract Voting {
-    mapping(string => uint256) public votes;
-    string[] public proposalList;
+    struct Proposal {
+        string title;
+        uint256 voteCount;
+        uint256 deadline; // timestamp when voting ends
+    }
 
+    mapping(string => Proposal) public proposals;
     mapping(address => mapping(string => bool)) public hasVoted;
 
-    function addProposal(string memory proposal) public {
-        proposalList.push(proposal);
+    string[] public proposalList;
+
+    function addProposal(string memory title, uint256 durationInMinutes) public {
+        require(proposals[title].deadline == 0, "Proposal already exists");
+
+        proposals[title] = Proposal({
+            title: title,
+            voteCount: 0,
+            deadline: block.timestamp + (durationInMinutes * 1 minutes)
+        });
+
+        proposalList.push(title);
     }
 
-    function vote(string memory proposal) public {
-        require(!hasVoted[msg.sender][proposal], "Already voted for this proposal");
+    function vote(string memory title) public {
+        require(block.timestamp < proposals[title].deadline, "Voting period expired");
+        require(!hasVoted[msg.sender][title], "Already voted for this proposal");
 
-        votes[proposal]++;
-        hasVoted[msg.sender][proposal] = true;
+        proposals[title].voteCount++;
+        hasVoted[msg.sender][title] = true;
     }
 
-    function getVotes(string memory proposal) public view returns (uint256) {
-        return votes[proposal];
+    function getVotes(string memory title) public view returns (uint256) {
+        return proposals[title].voteCount;
     }
 
     function getAllProposals() public view returns (string[] memory) {
         return proposalList;
     }
+
+    function getDeadline(string memory title) public view returns (uint256) {
+        return proposals[title].deadline;
+    }
 }
+
 

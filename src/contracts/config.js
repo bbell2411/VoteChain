@@ -120,5 +120,5 @@ export const CONTRACT_ABI = [
     "type": "function"
   }
 ]
-export const CONTRACT_ADDRESS = "0x487Da0bb50bB4E39A7B18c57FD7A63cC2d5a2bd5"
+export const CONTRACT_ADDRESS = "0x27BecC2383DF6ACD2A9C0e578e3b0A5656fE0c79"
 
