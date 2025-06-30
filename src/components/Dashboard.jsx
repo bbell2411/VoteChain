@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../contracts/config';
+import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../Contracts/config';
 import { ethers } from 'ethers'
 import Loading from './Loading'
 export const Dashboard = () => {
