@@ -21,6 +21,3 @@ function App() {
 }
 
 export default App
-
-// add poropsals/ delete proposals (will cost ETH)
-// vote for proposals (will cost ETH)
