@@ -14,7 +14,10 @@ export const Dashboard = () => {
     const [error, setError] = useState(false)
 
     const [proposals, setProposals] = useState([]);
-    const [votedProposals, setVotedProposals] = useState([])
+    const [votedProposals, setVotedProposals] = useState(() => {
+        const saved = localStorage.getItem('votedProposals')
+        return saved ? JSON.parse(saved) : []
+    })
 
     const [contract, setContract] = useState(null)
 
@@ -22,6 +25,10 @@ export const Dashboard = () => {
     const [newProposal, setNewProposal] = useState('')
 
     const [duration, setDuration] = useState(10)
+
+    useEffect(() => {
+        localStorage.setItem('votedProposals', JSON.stringify(votedProposals));
+    }, [votedProposals])
 
     useEffect(() => {
         const setupContractAndFetch = async () => {
@@ -54,17 +61,20 @@ export const Dashboard = () => {
         try {
             setIsLoading(true)
             const proposalTitles = await contract.getAllProposals()
+            const now = Date.now()
             const proposalsWithDetails = await Promise.all(
                 proposalTitles.map(async (title) => {
                     const { voteCount, deadline } = await contract.proposals(title)
+
                     console.log(voteCount, deadline, "voteCount and deadline")
 
-                    const votes = voteCount && voteCount.toNumber ? voteCount.toNumber() : 0
+                    const votes = Number(voteCount) ?? 0
                     const deadlineMs = deadline ? Number(deadline) * 1000 : 0
                     return {
                         title,
                         votes,
-                        deadline: deadlineMs,
+                        deadline: deadlineMs ? new Date(deadlineMs) : null,
+                        expired: deadlineMs ? deadlineMs < now : false,
                     }
                 })
             )
@@ -77,10 +87,20 @@ export const Dashboard = () => {
             setIsLoading(false)
         }
     }
-    console.log(proposals, "setProposals")
+    console.log(proposals, "the proposals")
 
-    const voteForProposal = async (proposalTitle) => {
-        if (votedProposals.includes(proposalTitle)) return
+    const voteForProposal = async (proposalTitle, deadline) => {
+        const now = Date.now()
+
+        if (deadline * 1000 < now) {
+            alert("Voting for this proposal has expired.");
+            return
+        }
+
+        if (votedProposals.includes(proposalTitle)) {
+            alert("You already voted for this proposal.");
+            return
+        }
 
         try {
             setIsLoading(true);
@@ -119,7 +139,7 @@ export const Dashboard = () => {
         setContract(null)
         setVotedProposals([])
         setProposals([])
-        localStorage.clear()
+        // localStorage.removeItem('votedProposals')
         navigate('/')
     }
 
@@ -152,7 +172,7 @@ export const Dashboard = () => {
                     ) : votedProposals.includes(p.title) ? (
                         <p>✅ You voted</p>
                     ) : (
-                        <button onClick={() => voteForProposal(p.title)}>Vote</button>
+                        <button disabled={p.expired} onClick={() => voteForProposal(p.title, p.deadline)}>Vote</button>
                     )}
 
                 </div>
@@ -186,6 +206,7 @@ export const Dashboard = () => {
 }
 
 // Add transaction history
-//handling errors for votes only once, proposal expired so no votes.. etc.
-
+// local storage
+//persisting votes and deadlines due to function only being invoked when updating blockchain
+//delete proposals
 
