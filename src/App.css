@@ -130,3 +130,19 @@ p {
 .proposal-form button:hover {
   background-color: #196c2e;
 }
+
+.disconnect-btn {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.disconnect-btn:hover {
+  background-color: #d9363e;
+}
