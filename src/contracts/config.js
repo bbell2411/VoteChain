@@ -3,8 +3,13 @@ export const CONTRACT_ABI = [
     "inputs": [
       {
         "internalType": "string",
-        "name": "proposal",
+        "name": "title",
         "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "durationInMinutes",
+        "type": "uint256"
       }
     ],
     "name": "addProposal",
@@ -29,7 +34,26 @@ export const CONTRACT_ABI = [
     "inputs": [
       {
         "internalType": "string",
-        "name": "proposal",
+        "name": "title",
+        "type": "string"
+      }
+    ],
+    "name": "getDeadline",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "title",
         "type": "string"
       }
     ],
@@ -91,32 +115,42 @@ export const CONTRACT_ABI = [
     "inputs": [
       {
         "internalType": "string",
-        "name": "proposal",
+        "name": "",
         "type": "string"
       }
     ],
-    "name": "vote",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "proposals",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "voteCount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "deadline",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "string",
-        "name": "",
+        "name": "title",
         "type": "string"
       }
     ],
-    "name": "votes",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
+    "name": "vote",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

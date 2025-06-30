@@ -21,6 +21,8 @@ export const Dashboard = () => {
     const [showForm, setShowForm] = useState(false)
     const [newProposal, setNewProposal] = useState('')
 
+    const [duration, setDuration] = useState(10)
+
     useEffect(() => {
         const setupContractAndFetch = async () => {
             if (window.ethereum && walletAddress) {
@@ -39,7 +41,6 @@ export const Dashboard = () => {
                     )
                     setProposals(proposalsWithVotes)
                 } catch (err) {
-                    console.error("Contract setup or fetch failed:", err)
                     setError(true)
                 }
             }
@@ -53,25 +54,33 @@ export const Dashboard = () => {
         try {
             setIsLoading(true)
             const proposalTitles = await contract.getAllProposals()
-
-            const proposalsWithVotes = await Promise.all(
+            const proposalsWithDetails = await Promise.all(
                 proposalTitles.map(async (title) => {
-                    const votes = await contract.getVotes(title)
-                    return { title, votes: Number(votes) }
+                    const { voteCount, deadline } = await contract.proposals(title)
+                    console.log(voteCount, deadline, "voteCount and deadline")
+
+                    const votes = voteCount && voteCount.toNumber ? voteCount.toNumber() : 0
+                    const deadlineMs = deadline ? Number(deadline) * 1000 : 0
+                    return {
+                        title,
+                        votes,
+                        deadline: deadlineMs,
+                    }
                 })
             )
 
-            setProposals(proposalsWithVotes)
+            setProposals(proposalsWithDetails)
         } catch (err) {
-            console.log("here", contract)
+            console.error("Failed to fetch proposals:", err)
             setError(true)
-        }
-        finally {
+        } finally {
             setIsLoading(false)
         }
     }
+    console.log(proposals, "setProposals")
+
     const voteForProposal = async (proposalTitle) => {
-        if (votedProposals.includes(proposalTitle)) return;
+        if (votedProposals.includes(proposalTitle)) return
 
         try {
             setIsLoading(true);
@@ -82,24 +91,24 @@ export const Dashboard = () => {
             setVotedProposals([...votedProposals, proposalTitle])
         } catch (err) {
             setError(true)
-            setIsLoading(false)
         } finally {
             setIsLoading(false)
         }
     }
     const handleAddProposal = async (e) => {
         e.preventDefault();
-        if (!newProposal.trim()) return;
+        if (!newProposal.trim() || !duration) return;
 
         try {
-            setIsLoading(true)
-            const tx = await contract.addProposal(newProposal)
+            setIsLoading(true);
+            const tx = await contract.addProposal(newProposal, Number(duration))
             await tx.wait()
             await fetchProposals()
             alert("Proposal added!")
             setNewProposal('')
+            setDuration(10)
         } catch (err) {
-            console.error(err)
+            console.error("Contract setup or fetch failed:", err)
             setError(true)
         } finally {
             setIsLoading(false)
@@ -123,7 +132,7 @@ export const Dashboard = () => {
         <div className="dashboard">
             <h1>Start voting</h1>
             <p className='connected'>Connected Wallet: {walletAddress}</p>
-            <button className="disconnect-btn"  onClick={disconnectWallet}>Disconnect</button>
+            <button className="disconnect-btn" onClick={disconnectWallet}>Disconnect</button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {isLoading && <p>Loading...</p>}
             {proposals.length === 0 && !isLoading && <p>No proposals available.</p>}
@@ -132,8 +141,16 @@ export const Dashboard = () => {
                     <h2>{p.title}</h2>
                     <p>Votes: {p.votes}</p>
 
-                    {votedProposals.includes(p.title) ? (
-                        <p>✅ You voted for this</p>
+                    <p>
+                        Expires: {p.deadline && p.deadline > 0
+                            ? new Date(p.deadline).toLocaleString()
+                            : "No deadline set"}
+                    </p>
+
+                    {p.expired ? (
+                        <p>⏰ Voting expired</p>
+                    ) : votedProposals.includes(p.title) ? (
+                        <p>✅ You voted</p>
                     ) : (
                         <button onClick={() => voteForProposal(p.title)}>Vote</button>
                     )}
@@ -152,6 +169,14 @@ export const Dashboard = () => {
                         onChange={(e) => setNewProposal(e.target.value)}
                         placeholder="Enter proposal title..."
                     />
+                    <input
+                        type="number"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
+                        placeholder="Duration (minutes)"
+                        min="1"
+                        required
+                    />
                     <button type="submit">Submit</button>
                 </form>
             )}
@@ -161,7 +186,6 @@ export const Dashboard = () => {
 }
 
 // Add transaction history
-// Show proposal expiration timers (optional: update your contract)
-
+//handling errors for votes only once, proposal expired so no votes.. etc.
 
 
