@@ -5,7 +5,7 @@ contract Voting {
     struct Proposal {
         string title;
         uint256 voteCount;
-        uint256 deadline; // timestamp when voting ends
+        uint256 deadline; 
     }
 
     mapping(string => Proposal) public proposals;
