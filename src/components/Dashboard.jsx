@@ -3,7 +3,10 @@ import { useEffect, useState } from 'react';
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../Contracts/config';
 import { ethers } from 'ethers'
 import Loading from './Loading'
+import { useNavigate } from 'react-router-dom'
 export const Dashboard = () => {
+    const navigate = useNavigate()
+
     const location = useLocation()
     const walletAddress = location.state?.walletAddress
 
@@ -14,6 +17,7 @@ export const Dashboard = () => {
     const [votedProposals, setVotedProposals] = useState([])
 
     const [contract, setContract] = useState(null)
+
     const [showForm, setShowForm] = useState(false)
     const [newProposal, setNewProposal] = useState('')
 
@@ -102,6 +106,15 @@ export const Dashboard = () => {
         }
     }
 
+    const disconnectWallet = () => {
+        setContract(null)
+        setVotedProposals([])
+        setProposals([])
+        localStorage.clear()
+        navigate('/')
+    }
+
+
     if (isLoading) return <Loading />
 
     if (error) return <p style={{ color: 'red' }}>Error loading proposals. Please try again later.</p>
@@ -110,6 +123,7 @@ export const Dashboard = () => {
         <div className="dashboard">
             <h1>Start voting</h1>
             <p className='connected'>Connected Wallet: {walletAddress}</p>
+            <button className="disconnect-btn"  onClick={disconnectWallet}>Disconnect</button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {isLoading && <p>Loading...</p>}
             {proposals.length === 0 && !isLoading && <p>No proposals available.</p>}
@@ -146,10 +160,8 @@ export const Dashboard = () => {
     )
 }
 
-//Add wallet disconnection logic
 // Add transaction history
 // Show proposal expiration timers (optional: update your contract)
 
-//load && err!!!
 
 
