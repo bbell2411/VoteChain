@@ -166,7 +166,7 @@ export const Dashboard = () => {
 
                     {p.expired ? (
                         <p>⏰ Voting expired</p>
-                    ) : votedProposals.includes(p.title) ? (
+                    ) : p.hasVoted ? (
                         <p>✅ You voted</p>
                     ) : (
                         <button disabled={p.expired} onClick={() => voteForProposal(p.title, p.deadline)}>Vote</button>
