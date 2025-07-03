@@ -14,10 +14,7 @@ export const Dashboard = () => {
     const [error, setError] = useState(false)
 
     const [proposals, setProposals] = useState([]);
-    const [votedProposals, setVotedProposals] = useState(() => {
-        const saved = localStorage.getItem('votedProposals')
-        return saved ? JSON.parse(saved) : []
-    })
+    const [votedProposals, setVotedProposals] = useState([])
 
     const [contract, setContract] = useState(null)
 
@@ -27,7 +24,7 @@ export const Dashboard = () => {
     const [duration, setDuration] = useState(10)
 
     useEffect(() => {
-        localStorage.setItem('votedProposals', JSON.stringify(votedProposals));
+        localStorage.setItem('votedProposals', JSON.stringify(votedProposals))
     }, [votedProposals])
 
     useEffect(() => {
@@ -49,29 +46,31 @@ export const Dashboard = () => {
 
     useEffect(() => {
         if (contract) {
-            fetchProposals();
+            fetchProposals()
         }
     }, [contract])
 
     const fetchProposals = async () => {
-        if (!contract) return
+        if (!contract || !walletAddress) return;
         try {
-            setIsLoading(true)
+            setIsLoading(true);
             const proposalTitles = await contract.getAllProposals()
             const now = Date.now()
+
             const proposalsWithDetails = await Promise.all(
                 proposalTitles.map(async (title) => {
                     const { voteCount, deadline } = await contract.proposals(title)
+                    const hasVoted = await contract.hasVoted(walletAddress, title)
 
-                    console.log(voteCount, deadline, "voteCount and deadline")
-
-                    const votes = Number(voteCount) ?? 0
+                    const votes = Number(voteCount) ?? 0;
                     const deadlineMs = deadline ? Number(deadline) * 1000 : 0
+
                     return {
                         title,
                         votes,
                         deadline: deadlineMs ? new Date(deadlineMs) : null,
                         expired: deadlineMs ? deadlineMs < now : false,
+                        hasVoted: hasVoted
                     }
                 })
             )
@@ -83,7 +82,9 @@ export const Dashboard = () => {
         } finally {
             setIsLoading(false)
         }
-    }
+    };
+
+
     console.log(proposals, "the proposals")
 
     const voteForProposal = async (proposalTitle, deadline) => {
@@ -136,7 +137,6 @@ export const Dashboard = () => {
         setContract(null)
         setVotedProposals([])
         setProposals([])
-        // localStorage.removeItem('votedProposals')
         navigate('/')
     }
 
