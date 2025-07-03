@@ -24,10 +24,6 @@ export const Dashboard = () => {
     const [duration, setDuration] = useState(10)
 
     useEffect(() => {
-        localStorage.setItem('votedProposals', JSON.stringify(votedProposals))
-    }, [votedProposals])
-
-    useEffect(() => {
         const setupContract = async () => {
             if (window.ethereum && walletAddress) {
                 try {
@@ -203,8 +199,6 @@ export const Dashboard = () => {
 }
 
 // Add transaction history
-// local storage (make sure votes persist)
-//persisting votes and deadlines due to function only being invoked when updating blockchain (make sure they always show up in proposal state)
 //delete proposals
 //blockchain saves proposals and shows other users
 
