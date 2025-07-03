@@ -31,30 +31,27 @@ export const Dashboard = () => {
     }, [votedProposals])
 
     useEffect(() => {
-        const setupContractAndFetch = async () => {
+        const setupContract = async () => {
             if (window.ethereum && walletAddress) {
                 try {
                     const provider = new ethers.BrowserProvider(window.ethereum)
                     const signer = await provider.getSigner()
                     const voteContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
                     setContract(voteContract)
-
-                    const proposalTitles = await voteContract.getAllProposals()
-                    const proposalsWithVotes = await Promise.all(
-                        proposalTitles.map(async (title) => {
-                            const votes = await voteContract.getVotes(title)
-                            return { title, votes: Number(votes) }
-                        })
-                    )
-                    setProposals(proposalsWithVotes)
                 } catch (err) {
                     setError(true)
                 }
             }
         }
 
-        setupContractAndFetch()
+        setupContract()
     }, [walletAddress])
+
+    useEffect(() => {
+        if (contract) {
+            fetchProposals();
+        }
+    }, [contract])
 
     const fetchProposals = async () => {
         if (!contract) return
@@ -206,7 +203,8 @@ export const Dashboard = () => {
 }
 
 // Add transaction history
-// local storage
-//persisting votes and deadlines due to function only being invoked when updating blockchain
+// local storage (make sure votes persist)
+//persisting votes and deadlines due to function only being invoked when updating blockchain (make sure they always show up in proposal state)
 //delete proposals
+//blockchain saves proposals and shows other users
 
