@@ -18,10 +18,8 @@ This project demonstrates practical skills in frontend React development combine
 
 ## 💡 Current Status
 
-- Proposals and votes are currently managed locally in React state for rapid development and UI testing  
 - Solidity smart contract developed for managing proposals and votes on-chain (contract code included in `/contracts` folder)  
-- Integration with deployed smart contract on testnet is underway  
-- Transactional interactions (adding proposals, voting) planned to be fully on-chain with ETH gas costs  
+- Transactional interactions (adding proposals, voting) fully on-chain with ETH gas costs  
 
 ---
 
@@ -29,14 +27,27 @@ This project demonstrates practical skills in frontend React development combine
 
 - React (Vite) for frontend UI  
 - Ethers.js (v6) for Ethereum blockchain interaction  
-- Solidity (v0.8.28) for smart contract development  
+- Solidity (v0.8.28) for smart contract development + Hardhat
 - CSS3 with custom dark mode design  
 
 ---
 
+## 🚀 Live Demo
+
+👉 Frontend: [votechain.vercel.app](https://vote-chain-six.vercel.app/)  
+👉 Smart Contract: 0x27BecC2383DF6ACD2A9C0e578e3b0A5656fE0c79 (Deployed on Sepolia)
+
 ## 🛠️ Roadmap
 
-- [ ] Enhance UI/UX and add accessibility features  
+- Enhance UI/UX and add accessibility features  
+
+---
+
+ ## 🖼️ Demo Screens
+
+| Proposals | Add Proposal |
+|-----------|--------------|
+| ![Vote List](./screenshots/votechain-ss1.png) | ![Add Form](./screenshots/votechain-ss2.png) |
 
 ---
 
@@ -63,13 +74,6 @@ This project is part of my journey to become proficient in Web3 development by:
 
 MIT License — Feel free to use and learn from this project!
 
-## Available Scripts
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 
