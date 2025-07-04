@@ -198,7 +198,4 @@ export const Dashboard = () => {
     )
 }
 
-// Add transaction history
-//delete proposals
-//blockchain saves proposals and shows other users
 
