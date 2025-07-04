@@ -45,7 +45,7 @@ This project demonstrates practical skills in frontend React development combine
 
  ## 🖼️ Demo Screens
 
-| Proposals | Add Proposal |
+| Wallet connection + gas | Proposals |
 |-----------|--------------|
 | ![Vote List](./screenshots/votechain-ss1.png) | ![Add Form](./screenshots/votechain-ss2.png) |
 
