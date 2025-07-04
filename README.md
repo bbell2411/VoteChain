@@ -37,17 +37,19 @@ This project demonstrates practical skills in frontend React development combine
 👉 Frontend: [votechain.vercel.app](https://vote-chain-six.vercel.app/)  
 👉 Smart Contract: 0x27BecC2383DF6ACD2A9C0e578e3b0A5656fE0c79 (Deployed on Sepolia)
 
-## 🛠️ Roadmap
-
-- Enhance UI/UX and add accessibility features  
-
 ---
 
  ## 🖼️ Demo Screens
 
-| Wallet connection + gas | Proposals |
+| Wallet connection + gas transaction | Proposals |
 |-----------|--------------|
 | ![Vote List](./screenshots/votechain-ss1.png) | ![Add Form](./screenshots/votechain-ss2.png) |
+
+---
+
+## 🛠️ Roadmap
+
+- Enhance UI/UX and add accessibility features
 
 ---
 
